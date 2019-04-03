@@ -6,14 +6,15 @@ function signInForm()
     require('view/frontend/signinView.php');
 }
 
-function signUpForm(){
+function signUpForm()
+{
     require('view/frontend/signupView.php');
 }
 
 function showRooms()
 {
     require('view/frontend/roomsView.php');
-    if (isset($_POST['logout'])){
+    if (isset($_POST['logout'])) {
         logout();
     }
 }
@@ -21,23 +22,28 @@ function showRooms()
 function signIn($user, $password)
 {
     $userData = getUser($user);
-    if (password_verify($password, $userData['password'])) {
-        $_SESSION['mail'] = $userData['mail'];
-        header('Location: index.php');
+    if ($user == $userData['mail']) {
+        if (password_verify($password, $userData['password'])) {
+            $_SESSION['mail'] = $userData['mail'];
+            header('Location: /login_julio/php_login/index.php');
+        } else {
+            echo "<h1>Error your username and password do not match !</h1>";
+        }
     } else {
-        echo "<h1>Error your username and password do not match !</h1>";
+        echo "<h1>User not found  !</h1>";
     }
 }
 
-function signUp($user,$newPassword,$newPasswordConfirm){
+function signUp($user, $newPassword, $newPasswordConfirm)
+{
     if ($newPassword == $newPasswordConfirm) {
-        if(getUser($user)) {
+        if (getUser($user)) {
             echo "This username name is already taken !";
             echo "<a href='index.php' class='txt3'>Back</a>";
         } else {
-            $password = password_hash($newPassword,PASSWORD_DEFAULT);
-            insertNewUser($user,$password);
-            header('Location: ../index.php');
+            $password = password_hash($newPassword, PASSWORD_DEFAULT);
+            insertNewUser($user, $password);
+            header('Location: /login_julio/php_login/index.php');
         }
     } else {
         echo "Your password do not match !";
@@ -49,4 +55,3 @@ function logout()
     session_destroy();
     header('Location: index.php');
 }
-
