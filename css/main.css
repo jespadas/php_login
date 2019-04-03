@@ -36,7 +36,7 @@ table, th, td {
 
 body, html {
 	height: 100%;
-	font-family: Ubuntu-Regular, sans-serif;
+  font-family: Ubuntu-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
@@ -178,7 +178,7 @@ iframe {
   align-items: center;
   padding: 15px;
   position: relative;
-  background-color: #fff;
+  background-color: white;
 }
 
 .wrap-login100 {

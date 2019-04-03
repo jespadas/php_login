@@ -42,10 +42,7 @@ ob_start();
 						<span class="txt1 p-b-9">
 							Don’t have an account?
 						</span>
-
-						<a href="#" class="txt3">
-							Sign up now
-						</a>
+						<a href="index.php?signUp" class="txt3">Sign Up</a>
 					</div>
 				</form>
 			</div>

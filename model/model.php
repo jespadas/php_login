@@ -1,41 +1,46 @@
 <?php
 
-function connectBD(){
-    $server = "mysql:host=localhost;dbname=room_reservation";
+function connectBD()
+{
+    $server = "mysql:host=localhost;port=3307;dbname=room_reservation";
     $username = "root";
-    $password = "root";
-    $options = null;
+    $password = "";
     try {
-        $go_bdd = new PDO($server, $username, $password, $options);
+        $go_bdd = new PDO($server, $username, $password);
     } catch (Exception $e) {
         die("Error: " . $e->getMessage());
     }
+    return $go_bdd;
 }
 
 function getUser($user)
 {
-
-    connectBD();
-    global $go_bdd;
-    $response = $go_bdd->query('SELECT * FROM users WHERE mail = "' . $user . '"');
-    $userData = $response->fetch();
+    $go_bdd = connectBD();
+    $request = $go_bdd->prepare('SELECT * FROM users WHERE mail = :mail');
+    $request->execute([':mail' => $user]);
+    $userData = $request->fetch();
 
     if ($userData) {
         return $userData;
     }
-    echo 'no data';
-    return;
+    return false;
+}
+
+function insertNewUser($newUser, $newPassword)
+{
+    $go_bdd = connectBD();
+    $request = $go_bdd->prepare('INSERT INTO users VALUES (NULL,:mail,:password)');
+    $request->execute([':mail' => $newUser, ':password' => $newPassword]);
 }
 
 function getRooms()
 {
-    connectBD();
-    global $go_bdd;
-    $response = $go_bdd->query('SELECT DISTINCT * FROM rooms');
-    $roomsData = $response->fetch();
-    //$row = $roomsData;
+    $go_bdd = connectBD();
+    $request = $go_bdd->prepare('SELECT DISTINCT * FROM users WHERE rooms');
+    $request->execute();
+    $roomsData = $request->fetch();
 
-    if($roomsData) {
+    if ($roomsData) {
         return $roomsData;
     } else {
         echo 'no data';

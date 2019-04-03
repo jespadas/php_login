@@ -34,7 +34,7 @@ ob_start();
     </tr>
 </table>
 <form action="index.php" method="post">
-<button class="login100-form-btn bottom" onclick="logout()">Log Out</button>
+<button class="login100-form-btn bottom" name="logout" value="1">Log Out</button>
 </form>
 <?php
 $content = ob_get_clean();
